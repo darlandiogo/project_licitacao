@@ -16,7 +16,7 @@ class CreatePessoaFisicasTable extends Migration
         Schema::create('pessoa_fisicas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pessoa_id'); 
-            $table->string('c.i');
+            $table->string('ci');
             $table->string('cpj');
             $table->string('type'); // qualificação
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
