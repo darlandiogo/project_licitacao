@@ -1,0 +1,16 @@
+version: "3.4"
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: kieling
+    working_dir: /kieling
+    image: php:alpine
+    volumes:
+      - "./:/kieling"
+    command: php artisan migrate 
+    command: php artisan serve
+    ports:
+      - 8000:8000
+    network_mode: host
