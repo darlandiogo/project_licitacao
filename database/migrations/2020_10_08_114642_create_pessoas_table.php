@@ -19,6 +19,7 @@ class CreatePessoasTable extends Migration
             $table->string('birth_date'); //nascimento
             $table->string('email');
             $table->string('phone');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

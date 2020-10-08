@@ -20,6 +20,7 @@ class CreatePessoaJuridicasTable extends Migration
             $table->string('razao_social');
             $table->string('type'); // MEI,etc
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

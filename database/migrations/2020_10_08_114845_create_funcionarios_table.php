@@ -15,13 +15,14 @@ class CreateFuncionariosTable extends Migration
     {
         Schema::create('funcionarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pessoa_id'); 
+            $table->unsignedBigInteger('pessoa_fisica_id'); 
             $table->string('matricula');
             $table->string('type_contract'); // clt, commisionado
             $table->string('role');
             $table->string('sector');
             $table->string('portaria');
-            $table->foreign('pessoa_id')->references('id')->on('pessoas');
+            $table->foreign('pessoa_fisica_id')->references('id')->on('pessoa_fisicas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

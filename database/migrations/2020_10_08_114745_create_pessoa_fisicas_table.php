@@ -20,6 +20,7 @@ class CreatePessoaFisicasTable extends Migration
             $table->string('cpj');
             $table->string('type'); // qualificação
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
