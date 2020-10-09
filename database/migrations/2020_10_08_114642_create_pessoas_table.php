@@ -16,9 +16,8 @@ class CreatePessoasTable extends Migration
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('birth_date'); //nascimento
-            $table->string('email');
-            $table->string('phone');
+            $table->string('birth_date')->nullable(); //nascimento
+            $table->string('email')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

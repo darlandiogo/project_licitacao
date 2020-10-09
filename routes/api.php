@@ -25,6 +25,9 @@ Route::post('/logout', 'Auth\\AuthController@logout');
 Route::post('/refresh', 'Auth\\AuthController@refresh');
 Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
+
+Route::apiResource('pessoa', PessoaController::class); 
+
 Route::get('/teste', function(){
 
     //return App\Models\Role::find(1)->permissions;

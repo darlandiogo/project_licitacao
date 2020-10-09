@@ -17,8 +17,8 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pessoa_id'); 
             $table->string('address');
-            $table->string('number');
-            $table->string('complement');
+            $table->string('number')->nullable();
+            $table->string('complement')->nullable();
             $table->string('postal_code');
             $table->string('neighborhood'); // bairro
             $table->string('city');
