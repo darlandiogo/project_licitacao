@@ -32,7 +32,7 @@ class PessoaRepository
                 foreach($input['phones'] as $phone){
                     Phone::create([
                         'pessoa_id' => $pessoa->id,
-                        'number' => $phone->number
+                        'number' => $phone['number']
                     ]);
                 }
             }
@@ -61,7 +61,7 @@ class PessoaRepository
         $pessoa->name = $input['name'];
         $pessoa->birth_date = $input['birth_date'] ?? null;
         $pessoa->email = $input['email'] ?? null ;
-        $pessoa->save;
+        $pessoa->save();
 
         if(isset($pessoa->id) && isset($input['phones']))
         {   
@@ -71,7 +71,7 @@ class PessoaRepository
                 foreach($input['phones'] as $phone){
                     Phone::create([
                         'pessoa_id' => $pessoa->id,
-                        'number' => $phone->number
+                        'number' => $phone['number']
                     ]);
                 }
             }
@@ -90,6 +90,8 @@ class PessoaRepository
             $adrress->state = $input['address']['uf'];
             
         }
+
+        return $this->getById($pessoa->id);
     }
 
     public function delete($id)
