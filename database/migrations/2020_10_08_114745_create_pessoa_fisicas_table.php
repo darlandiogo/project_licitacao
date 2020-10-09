@@ -17,7 +17,7 @@ class CreatePessoaFisicasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pessoa_id'); 
             $table->string('ci');
-            $table->string('cpj');
+            $table->string('cpf');
             $table->string('type'); // qualificação
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
             $table->softDeletes();

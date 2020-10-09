@@ -27,6 +27,8 @@ Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
 
 Route::apiResource('pessoa', PessoaController::class); 
+Route::apiResource('pessoafisica', PessoaFisicaController::class); 
+Route::apiResource('pessoajuridica', PessoaJuridicaController::class); 
 
 Route::get('/teste', function(){
 

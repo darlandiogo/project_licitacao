@@ -48,6 +48,25 @@ class PessoaController extends Controller
          *      address: { ...APIViaCep, numero }
          *      phones: {[number]}
          * }
+            {
+                "name" : "darlan update", 
+                "birth_date" : "21/07/1990", 
+                "email" : "darlandiogo@hotmail.com",
+                "phones" : [{ "number" : "2196553434"}],
+                "address" : {
+            "cep": "21640-330",
+            "logradouro": "Rua São Venâncio",
+            "complemento": "",
+                "numero":"71",
+            "bairro": "Ricardo de Albuquerque",
+            "localidade": "Rio de Janeiro",
+            "uf": "RJ",
+            "ibge": "3304557",
+            "gia": "",
+            "ddd": "21",
+            "siafi": "6001"
+            }
+            }
          */
        return $this->pessoaRepository->create($request->only(['name', 'birth_date', 'email', 'address', 'phones']));
     }

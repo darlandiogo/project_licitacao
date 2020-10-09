@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Repositories;
-
+namespace App\Repositories;
 use App\Models\Pessoa;
 use App\Models\Address;
 use App\Models\Phone;
 
-class PessoaRepository
+class PessoaRepository implements Repository
 {
     public function all()
     {
@@ -58,10 +58,13 @@ class PessoaRepository
     public function edit($input, $id)
     {
         $pessoa = Pessoa::find($id);
-        $pessoa->name = $input['name'];
-        $pessoa->birth_date = $input['birth_date'] ?? null;
-        $pessoa->email = $input['email'] ?? null ;
-        $pessoa->save();
+        if($pessoa)
+        {
+            $pessoa->name = $input['name'];
+            $pessoa->birth_date = $input['birth_date'] ?? null;
+            $pessoa->email = $input['email'] ?? null ;
+            $pessoa->save();
+        }
 
         if(isset($pessoa->id) && isset($input['phones']))
         {   
