@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Repositories;
-namespace App\Repositories;
+
 use App\Models\PessoaFisica;
 
 class PessoaFisicaRepository implements Repository
 {
     public function all()
     {
-        return PessoaFisica::with('pessoa')->get();
+        return PessoaFisica::with('pessoa')->paginate(15);
     }
     
     public function getById($id)

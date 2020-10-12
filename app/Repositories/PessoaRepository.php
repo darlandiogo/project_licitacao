@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-namespace App\Repositories;
+
 use App\Models\Pessoa;
 use App\Models\Address;
 use App\Models\Phone;
