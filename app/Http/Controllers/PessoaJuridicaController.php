@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\PessoaJuridicaRequest;
 use App\Repositories\PessoaJuridicaRepository;
 
@@ -18,10 +19,10 @@ class PessoaJuridicaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return $this->pessoaJuridicaRepository->all();
+        $params = $request->only(['page', 'perPage', 'searchTerm']);
+        return $this->pessoaJuridicaRepository->all($params);
     }
 
     /**

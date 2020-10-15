@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\PessoaFisicaRequest;
 use App\Repositories\PessoaFisicaRepository;
 
@@ -18,10 +19,10 @@ class PessoaFisicaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return $this->pessoaFisicaRepository->all();
+        $params = $request->only(['page', 'perPage', 'searchTerm']);
+        return $this->pessoaFisicaRepository->all($params);
     }
 
     /**

@@ -7,7 +7,7 @@ use App\Models\PessoaJuridica;
 
 class PessoaJuridicaRepository implements Repository
 {
-    public function all()
+    public function all($params)
     {
         return PessoaJuridica::with('pessoa')->get();
     }

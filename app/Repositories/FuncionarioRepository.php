@@ -6,7 +6,7 @@ use App\Models\Funcionario;
 
 class FuncionarioRepository implements Repository
 {
-    public function all()
+    public function all($params)
     {
         return Funcionario::with('pessoa_fisica')->get();
     }

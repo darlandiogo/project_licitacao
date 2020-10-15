@@ -8,7 +8,7 @@ use App\Models\Phone;
 
 class PessoaRepository implements Repository
 {
-    public function all()
+    public function all($params)
     {
         return Pessoa::with('address')->with('phones')->get();
     }

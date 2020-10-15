@@ -21,15 +21,15 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', 'Auth\\AuthController@register');
 Route::post('/login', 'Auth\\AuthController@login');
 Route::post('/logout', 'Auth\\AuthController@logout');
-
 Route::post('/refresh', 'Auth\\AuthController@refresh');
+
 Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
 
-Route::apiResource('pessoa', PessoaController::class); 
-Route::apiResource('pessoafisica', PessoaFisicaController::class); 
-Route::apiResource('pessoajuridica', PessoaJuridicaController::class); 
-Route::apiResource('funcionario', FuncionarioController::class); 
+//Route::apiResource('pessoa', PessoaController::class); 
+Route::apiResource('pessoafisica', PessoaFisicaController::class)->middleware('auth_api'); 
+Route::apiResource('pessoajuridica', PessoaJuridicaController::class)->middleware('auth_api');  
+Route::apiResource('funcionario', FuncionarioController::class)->middleware('auth_api');  
 
 Route::get('/teste', function(){
 

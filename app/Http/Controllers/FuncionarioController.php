@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\FuncionarioRquest;
 use App\Repositories\FuncionarioRepository;
 
@@ -19,9 +20,10 @@ class FuncionarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->funcionarioRepository->all();
+        $params = $request->only(['page', 'perPage', 'searchTerm']);
+        return $this->funcionarioRepository->all($params);
     }
 
     /**

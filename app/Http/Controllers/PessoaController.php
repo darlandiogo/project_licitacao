@@ -20,9 +20,10 @@ class PessoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->pessoaRepository->all();
+        $params = $request->only(['page', 'perPage', 'searchTerm']);
+        return $this->pessoaRepository->all($params);
     }
 
     /**
