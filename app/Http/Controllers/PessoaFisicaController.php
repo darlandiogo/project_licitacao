@@ -44,15 +44,12 @@ class PessoaFisicaController extends Controller
     public function store(PessoaFisicaRequest $request)
     {
         /** 
-         * pessoa_id, ci, cpf, type,
-         * { 
-            "pessoa_id": 1,
-        "ci" : 33980124,
-        "cpf": 13309434444,
-        "type": "servidor"
-        }  
+         * name, email, birthy_date, ci, cpf, type,
+         *
         */  
-        return $this->pessoaFisicaRepository->create($request->only(['pessoa_id', 'ci', 'cpf', 'type']));
+        return $this->pessoaFisicaRepository->create(
+            $request->only(['name', 'email', 'birth_date', 'ci', 'cpf', 'type'])
+        );
 
     }
 
@@ -89,7 +86,10 @@ class PessoaFisicaController extends Controller
     public function update(PessoaFisicaRequest $request, $id)
     {
         //
-        return $this->pessoaFisicaRepository->edit($request->only(['pessoa_id', 'ci', 'cpf', 'type']), $id);
+        return $this->pessoaFisicaRepository->edit(
+            $request->only(['name', 'email', 'birth_date', 'ci', 'cpf', 'type']), 
+            $id
+        );
     }
 
     /**

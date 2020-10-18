@@ -6,9 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PessoaFisicaRequest extends FormRequest
+class PhoneRequest extends FormRequest
 {
-    /**
+        /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -26,21 +26,18 @@ class PessoaFisicaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:120',
-            'ci'   => 'required',
-            'cpf'  => 'required', 
+            'pessoa_id' => 'required',
+            'numbers' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'o campo é obrigatório',
-            'ci.required'   => 'o campo é obrigatório',
-            'cpf.required'  => 'o campo é obrigatório',
+            'pessoa_id.required' => 'o campo é obrigatório',
+            'numbers.required' => 'o campo é obrigatório',
         ];
     }
-
     
     protected function failedValidation(Validator $validator) 
     {

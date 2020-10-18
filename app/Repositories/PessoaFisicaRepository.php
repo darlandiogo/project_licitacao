@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\PessoaFisica;
 use App\Models\Pessoa;
+use App\Models\PessoaFisica;
 use Illuminate\Support\Facades\DB;
 
 class PessoaFisicaRepository implements Repository
@@ -31,25 +31,38 @@ class PessoaFisicaRepository implements Repository
 
     public function create($input)
     {
-        $pessoa = PessoaFisica::create([
-            'pessoa_id' => $input['pessoa_id'],
+        $pessoa = Pessoa::create([
+            'name' => $input['name'],
+            'birth_date' => $input['birth_date'],
+            'email' => $input ['email'],
+        ]);
+
+        $pessoa_fisica = PessoaFisica::create([
+            'pessoa_id' => $pessoa->id,
             'ci' => $input['ci'],
             'cpf' => $input['cpf'],
             'type' => $input['type']
         ]);
 
-        return $this->getById($pessoa->id);
+        return $this->getById($pessoa_fisica->id);
     }
 
     public function edit($input, $id)
     {
-        $pessoa = PessoaFisica::find($id);
+        $pessoa = Pessoa::find($id);
         if($pessoa){
-            $pessoa->pessoa_id = $input['pessoa_id'];
-            $pessoa->ci   = $input['ci'];
-            $pessoa->cpf  = $input['cpf'] ;
-            $pessoa->type = $input['type'] ;
+            $pessoa->name = $input['name'];
+            $pessoa->birth_date = $input['birth_date'];
+            $pessoa->email = $input ['email'];
             $pessoa->save();
+        }
+
+        $pessoa_fisica = PessoaFisica::find($pessoa->id);
+        if($pessoa_fisica){
+            $pessoa_fisica->ci   = $input['ci'];
+            $pessoa_fisica->cpf  = $input['cpf'] ;
+            $pessoa_fisica->type = $input['type'] ;
+            $pessoa_fisica->save();
         }
 
         return $this->getById($pessoa->id);
