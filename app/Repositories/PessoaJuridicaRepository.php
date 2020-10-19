@@ -3,24 +3,42 @@
 namespace App\Repositories;
 
 use App\Models\PessoaJuridica;
-
+use App\Models\Pessoa;
+use Illuminate\Support\Facades\DB;
 
 class PessoaJuridicaRepository implements Repository
 {
     public function all($params)
     {
-        return PessoaJuridica::with('pessoa')->get();
+        $query = DB::table('pessoas'); 
+        $query->select(['pessoas.id', 'pessoas.name', 'pessoas.email']);
+        $query->join('pessoa_juridicas', 'pessoa_juridicas.pessoa_id','=', 'pessoas.id');
+
+        if($params['searchTerm'])
+            $query->where('name', $params['searchTerm']);
+
+        if($params['page'] && $params['perPage'])
+            return $query->paginate($params['perPage'], ['*'], 'page', $params['page']);
+
+        return $query->paginate(10);
     }
     
     public function getById($id)
     {
-        return PessoaJuridica::with('pessoa')->findOrFail($id);
+        return Pessoa::with('pessoa_juridica')
+            ->with('address')->with('phones')->findOrFail($id);
     }
 
     public function create($input)
     {
-        $pessoa = PessoaJuridica::create([
-            'pessoa_id' => $input['pessoa_id'],
+        $pessoa = Pessoa::create([
+            'name' => $input['name'],
+            // 'birth_date' => $input['birth_date'],
+            'email' => $input ['email'],
+        ]);
+
+        PessoaJuridica::create([
+            'pessoa_id' => $pessoa->id,
             'razao_social' => $input['razao_social'],
             'cnpj' => $input['cnpj'],
             'type' => $input['type']
@@ -31,13 +49,21 @@ class PessoaJuridicaRepository implements Repository
 
     public function edit($input, $id)
     {
-        $pessoa = PessoaJuridica::find($id);
+        $pessoa = Pessoa::find($id);
         if($pessoa){
-            $pessoa->pessoa_id = $input['pessoa_id'];
-            $pessoa->razao_social   = $input['razao_social'];
-            $pessoa->cnpj  = $input['cnpj'] ;
-            $pessoa->type = $input['type'] ;
+            $pessoa->name = $input['name'];
+            //$pessoa->birth_date = $input['birth_date'];
+            $pessoa->email = $input ['email'];
             $pessoa->save();
+        }
+
+        $pessoa_fisica = PessoaJuridica::find($pessoa->id);
+        if($pessoa_fisica){
+            $pessoa_fisica->pessoa_id = $pessoa->id;
+            $pessoa_fisica->razao_social   = $input['razao_social'];
+            $pessoa_fisica->cnpj  = $input['cnpj'] ;
+            $pessoa_fisica->type = $input['type'] ;
+            $pessoa_fisica->save();
         }
 
         return $this->getById($pessoa->id);

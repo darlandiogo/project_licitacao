@@ -26,7 +26,7 @@ class PessoaJuridicaRequest extends FormRequest
     public function rules()
     {
         return [
-            'pessoa_id' => 'required',
+            //'pessoa_id' => 'required',
             'razao_social'   => 'required',
             'cnpj'  => 'required', 
             'type' => 'required', 
@@ -36,7 +36,7 @@ class PessoaJuridicaRequest extends FormRequest
     public function messages()
     {
         return [
-            'pessoa_id.required' => 'o campo é obrigatório',
+            //'pessoa_id.required' => 'o campo é obrigatório',
             'razao_social.required'   => 'o campo é obrigatório',
             'cnpj.required'  => 'o campo é obrigatório',
             'type.required' => 'o campo é obrigatório',

@@ -44,7 +44,7 @@ class PessoaFisicaRepository implements Repository
             'type' => $input['type']
         ]);
 
-        return $this->getById($pessoa_fisica->id);
+        return $this->getById($pessoa->id);
     }
 
     public function edit($input, $id)

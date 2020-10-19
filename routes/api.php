@@ -26,11 +26,13 @@ Route::post('/refresh', 'Auth\\AuthController@refresh');
 
 Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
-
+Route::get('funcionario/listpessoa', 'FuncionarioController@listPessoa')->middleware('auth_api');
 //Route::apiResource('pessoa', PessoaController::class); 
+
 Route::apiResource('pessoafisica', PessoaFisicaController::class)->middleware('auth_api'); 
 Route::apiResource('pessoajuridica', PessoaJuridicaController::class)->middleware('auth_api');  
 Route::apiResource('funcionario', FuncionarioController::class)->middleware('auth_api'); 
+ 
 
 Route::post('/address/update', 'AddrressController@update')->middleware('auth_api');
 Route::post('/phone/update', 'PhoneController@update')->middleware('auth_api');

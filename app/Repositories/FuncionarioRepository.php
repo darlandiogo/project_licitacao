@@ -3,17 +3,31 @@
 namespace App\Repositories;
 
 use App\Models\Funcionario;
+use Illuminate\Support\Facades\DB;
 
 class FuncionarioRepository implements Repository
 {
     public function all($params)
     {
-        return Funcionario::with('pessoa_fisica')->get();
+        //return Funcionario::with('pessoa_fisica')->get();
+
+        $query = DB::table('pessoas'); 
+        $query->select(['funcionarios.id', 'pessoas.name', 'pessoas.email']);
+        $query->join('pessoa_fisicas', 'pessoa_fisicas.pessoa_id','=', 'pessoas.id');
+        $query->join('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
+
+        if($params['searchTerm'])
+            $query->where('name', $params['searchTerm']);
+
+        if($params['page'] && $params['perPage'])
+            return $query->paginate($params['perPage'], ['*'], 'page', $params['page']);
+
+        return $query->paginate(10);
     }
     
     public function getById($id)
     {
-        return Funcionario::with('pessoa_fisica')->findOrFail($id);
+        return Funcionario::findOrFail($id);
     }
 
     public function create($input)
@@ -51,5 +65,15 @@ class FuncionarioRepository implements Repository
     {
         Funcionario::where('id',$id)->delete();
         return true;
-    }   
+    } 
+    
+    public function listPessoa(){
+        // * melhorar query pra trazer apenas pesso_fisica sem vinculo com funcionario
+        $query = DB::table('pessoa_fisicas'); 
+        $query->select(['pessoa_fisicas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
+        $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
+        $query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
+        return $query->get();
+
+    }
 }

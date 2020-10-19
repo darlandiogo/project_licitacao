@@ -75,6 +75,14 @@ class FuncionarioController extends Controller
     }
 
     /**
+     * list Pessoa (id, name)
+     */
+    public function listPessoa()
+    {
+        return $this->funcionarioRepository->listPessoa();
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

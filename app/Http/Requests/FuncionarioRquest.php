@@ -38,7 +38,7 @@ class FuncionarioRquest extends FormRequest
     public function messages()
     {
         return [
-            'pessoa_id.required' => 'o campo é obrigatório',
+            'pessoa_fisica_id.required' => 'o campo é obrigatório',
             'matricula.required'   => 'o campo é obrigatório',
             'type_contract.required'  => 'o campo é obrigatório',
             'role.required' => 'o campo é obrigatório',

@@ -42,18 +42,8 @@ class PessoaJuridicaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(PessoaJuridicaRequest $request)
-    {
-        /** 
-         * pessoa_id, ci, cpf, type,
-         * { 
-            "pessoa_id": 1,
-            "cnpj": 13309434444,
-            "razao_social": "empresa XPTO",
-            "type": "servidor"
-        }  
-        */  
-        return $this->pessoaJuridicaRepository->create($request->only(['pessoa_id', 'razao_social', 'cnpj', 'type']));
-
+    { 
+        return $this->pessoaJuridicaRepository->create($request->only(['name', 'email', 'razao_social', 'cnpj', 'type']));
     }
 
     /**
@@ -89,7 +79,7 @@ class PessoaJuridicaController extends Controller
     public function update(PessoaJuridicaRequest $request, $id)
     {
         //
-        return $this->pessoaJuridicaRepository->edit($request->only(['pessoa_id', 'razao_social', 'cnpj', 'type']), $id);
+        return $this->pessoaJuridicaRepository->edit($request->only(['name', 'email', 'razao_social', 'cnpj', 'type']), $id);
     }
 
     /**
