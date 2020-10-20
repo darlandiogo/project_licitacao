@@ -11,11 +11,17 @@ class PessoaJuridicaRepository implements Repository
     public function all($params)
     {
         $query = DB::table('pessoas'); 
-        $query->select(['pessoas.id', 'pessoas.name', 'pessoas.email']);
+        $query->select([
+            'pessoas.id', 
+            'pessoas.name as nome_fantasia', 
+            'pessoa_juridicas.razao_social', 
+            'pessoa_juridicas.cnpj',
+            'type'
+            ]);
         $query->join('pessoa_juridicas', 'pessoa_juridicas.pessoa_id','=', 'pessoas.id');
 
         if($params['searchTerm'])
-            $query->where('name', $params['searchTerm']);
+            $query->where('pessoas.name', 'like', '%' . $params['searchTerm'] . '%');
 
         if($params['page'] && $params['perPage'])
             return $query->paginate($params['perPage'], ['*'], 'page', $params['page']);

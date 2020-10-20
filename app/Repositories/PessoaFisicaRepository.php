@@ -11,11 +11,17 @@ class PessoaFisicaRepository implements Repository
     public function all($params)
     {   
         $query = DB::table('pessoas'); 
-        $query->select(['pessoas.id', 'pessoas.name', 'pessoas.email']);
+        $query->select([
+            'pessoas.id', 
+            'pessoas.name', 
+            'pessoa_fisicas.ci', 
+            'pessoa_fisicas.cpf',
+            'pessoa_fisicas.type',
+            ]);
         $query->join('pessoa_fisicas', 'pessoa_fisicas.pessoa_id','=', 'pessoas.id');
 
         if($params['searchTerm'])
-            $query->where('name', $params['searchTerm']);
+            $query->where('pessoas.name', 'like', '%' . $params['searchTerm'] . '%');
 
         if($params['page'] && $params['perPage'])
             return $query->paginate($params['perPage'], ['*'], 'page', $params['page']);

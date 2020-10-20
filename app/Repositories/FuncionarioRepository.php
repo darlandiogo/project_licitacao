@@ -12,12 +12,19 @@ class FuncionarioRepository implements Repository
         //return Funcionario::with('pessoa_fisica')->get();
 
         $query = DB::table('pessoas'); 
-        $query->select(['funcionarios.id', 'pessoas.name', 'pessoas.email']);
+        $query->select([
+            'funcionarios.id', 
+            'pessoas.name', 
+            'pessoa_fisicas.ci',
+            'pessoa_fisicas.cpf',
+            'funcionarios.role',
+            'funcionarios.portaria',
+            ]);
         $query->join('pessoa_fisicas', 'pessoa_fisicas.pessoa_id','=', 'pessoas.id');
         $query->join('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
 
         if($params['searchTerm'])
-            $query->where('name', $params['searchTerm']);
+            $query->where('pessoas.name', 'like', '%' . $params['searchTerm'] . '%');
 
         if($params['page'] && $params['perPage'])
             return $query->paginate($params['perPage'], ['*'], 'page', $params['page']);
