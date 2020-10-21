@@ -6,9 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PessoaJuridicaRequest extends FormRequest
+class RepresentanteRequest extends FormRequest
 {
-    /**
+        /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -26,23 +26,18 @@ class PessoaJuridicaRequest extends FormRequest
     public function rules()
     {
         return [
-            //'pessoa_id' => 'required',
-            'name'   => 'required',
-            'cnpj'  => 'required', 
-            'type' => 'required', 
+            'pessoa_juridica_id' => 'required',
+            'pessoa_fisica' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            //'pessoa_id.required' => 'o campo é obrigatório',
-            'name.required'   => 'o campo é obrigatório',
-            'cnpj.required'  => 'o campo é obrigatório',
-            'type.required' => 'o campo é obrigatório',
+            'pessoa_juridica_id.required' => 'o campo é obrigatório',
+            'pessoa_fisica.required' => 'o campo é obrigatório',
         ];
     }
-
     
     protected function failedValidation(Validator $validator) 
     {

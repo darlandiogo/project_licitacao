@@ -33,4 +33,5 @@ class Pessoa extends Model
     {
         return $this->hasOne('App\Models\PessoaJuridica');
     }
+  
 }
