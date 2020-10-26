@@ -27,7 +27,7 @@ class PessoaFisica extends Model
     public static function listPessoaById($id)
     {
         $query = DB::table('pessoa_fisicas'); 
-        $query->select(['pessoa_fisicas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
+        $query->select(['pessoas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
         $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
         //$query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
         $query->where('pessoas.id', $id);
@@ -35,7 +35,7 @@ class PessoaFisica extends Model
     }
     public static function listPessoa () {
         $query = DB::table('pessoa_fisicas'); 
-        $query->select(['pessoa_fisicas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
+        $query->select(['pessoas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
         $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
         $query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
         return $query->get();
