@@ -95,6 +95,7 @@ class LicitacaoRepository implements Repository
             $licitacao->status_process    = $input['status_process'];
             $licitacao->sector_id         = $input['sector_id'];
             $licitacao->value             = $input['value'];
+            $licitacao->save();
         }
 
         return $this->getById($licitacao->id);
