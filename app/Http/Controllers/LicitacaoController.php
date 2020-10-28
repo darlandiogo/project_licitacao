@@ -73,7 +73,7 @@ class LicitacaoController extends Controller
             'disbursement_schedule',
             'edital_date',
             'datetime_open',
-            'status_process',
+            'status',
             'sector_id',
             'value',
         ]);
@@ -133,7 +133,7 @@ class LicitacaoController extends Controller
             'disbursement_schedule',
             'edital_date',
             'datetime_open',
-            'status_process',
+            'status',
             'sector_id',
             'value',
         ]);

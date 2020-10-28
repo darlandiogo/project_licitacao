@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Licitacao;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class LicitacaoRepository implements Repository
@@ -10,7 +11,7 @@ class LicitacaoRepository implements Repository
     public function all($params)
     {
         $query = DB::table('licitacoes');
-        $query->select(['id', 'process_number', 'process_date', 'bidding_number', 'bidding_objective', 'value']);
+        $query->select(DB::raw("id, process_number, DATE_FORMAT(process_date,'%d/%m/%Y') AS process_date ,  bidding_number, bidding_objective, REPLACE(REPLACE(REPLACE(FORMAT(value, 2), '.', '#'), ',', '.'), '#', ',') as value"));
         if($params['searchTerm']){
             $query->where('process_number', 'like', '%' . $params['searchTerm'] . '%');
             $query->orWhere('bidding_number', 'like', '%' . $params['searchTerm'] . '%');
@@ -29,6 +30,7 @@ class LicitacaoRepository implements Repository
         ->with('licitacao_type') 
         ->with('licitacao_form') 
         ->with('licitacao_regime')  
+        ->with('licitacao_status')
         ->findOrFail($id); 
        
         if($licitacoes)
@@ -47,6 +49,7 @@ class LicitacaoRepository implements Repository
             'licitacao_type_id'     => $input['type'],
             'licitacao_form_id'     => $input['form'],
             'licitacao_regime_id'   => $input['regime'],
+            'licitacao_status_id'   => $input ['status'], 
             'bidding_objective' => $input['bidding_objective'],
             'justification'     => $input['justification'],
             'purpose_contract'  => $input['purpose_contract'],
@@ -59,10 +62,9 @@ class LicitacaoRepository implements Repository
             'emiter_office'     => $input['emiter_office'],
             'disbursement_schedule' => $input['disbursement_schedule'],
             'edital_date'       => $input['edital_date'],
-            'datetime_open'     => $input['datetime_open'],
-            'status_process'    => $input['status_process'],
+            'datetime_open'     => new Carbon($input['datetime_open']),
             'sector_id'         => $input['sector_id'],
-            'value'             => $input['value'],
+            'value'             => Licitacao::formatMoneyDb($input['value']),
         ]);
 
         return $this->getById($licitacao->id);
@@ -79,6 +81,7 @@ class LicitacaoRepository implements Repository
             $licitacao->licitacao_type_id     = $input['type'];
             $licitacao->licitacao_form_id     = $input['form'];
             $licitacao->licitacao_regime_id   = $input['regime'];
+            $licitacao->licitacao_status_id   = $input['status'];
             $licitacao->bidding_objective = $input['bidding_objective'];
             $licitacao->justification     = $input['justification'];
             $licitacao->purpose_contract  = $input['purpose_contract'];
@@ -91,10 +94,9 @@ class LicitacaoRepository implements Repository
             $licitacao->emiter_office     = $input['emiter_office'];
             $licitacao->disbursement_schedule = $input['disbursement_schedule'];
             $licitacao->edital_date       = $input['edital_date'];
-            $licitacao->datetime_open     = $input['datetime_open'];
-            $licitacao->status_process    = $input['status_process'];
+            $licitacao->datetime_open     = new Carbon($input['datetime_open']);
             $licitacao->sector_id         = $input['sector_id'];
-            $licitacao->value             = $input['value'];
+            $licitacao->value             =  Licitacao::formatMoneyDb($input['value']);
             $licitacao->save();
         }
 
@@ -113,6 +115,7 @@ class LicitacaoRepository implements Repository
             'types' => DB::table('licitacao_types')->get(),
             'forms' => DB::table('licitacao_forms')->get(),
             'regimes' => DB::table('licitacao_regimes')->get(),
+            'status' => DB::table('licitacao_status')->get(),
         ];
 
         return $list;

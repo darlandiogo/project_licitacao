@@ -22,6 +22,7 @@ class CreateLicitacoesTable extends Migration
             $table->unsignedBigInteger('licitacao_type_id');
             $table->unsignedBigInteger('licitacao_form_id');
             $table->unsignedBigInteger('licitacao_regime_id');
+            $table->unsignedBigInteger('licitacao_status_id');
             $table->string('bidding_objective');
             $table->string('justification');
             $table->string('purpose_contract');
@@ -35,13 +36,13 @@ class CreateLicitacoesTable extends Migration
             $table->string('disbursement_schedule');
             $table->date('edital_date');
             $table->dateTime('datetime_open');
-            $table->string('status_process');
-            $table->string('sector_id'); // secretaria_id : []
+            $table->string('sector_id');
             $table->decimal('value', 13, 2);
             $table->foreign('licitacao_modality_id')->references('id')->on('licitacao_modalities');
             $table->foreign('licitacao_type_id')->references('id')->on('licitacao_types');
             $table->foreign('licitacao_form_id')->references('id')->on('licitacao_forms');
             $table->foreign('licitacao_regime_id')->references('id')->on('licitacao_regimes');
+            $table->foreign('licitacao_status_id')->references('id')->on('licitacao_status');
             $table->softDeletes();
             $table->timestamps();
         });

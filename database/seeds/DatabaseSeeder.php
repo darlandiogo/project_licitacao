@@ -12,9 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //$this->call(UserSeeder::class);
-        $this->call(LicitacaoModalitySeeder::class);
-        $this->call(LicitacaoTypeSeeder::class);
-        $this->call(LicitacaoFormSeeder::class);
-        $this->call(LicitacaoRegimeSeeder::class);
+        //$this->call(LicitacaoModalitySeeder::class);
+        //$this->call(LicitacaoTypeSeeder::class);
+        //$this->call(LicitacaoFormSeeder::class);
+        //$this->call(LicitacaoRegimeSeeder::class);
+        $this->call(LicitacaoStatusSeeder::class);
     }
 }

@@ -46,7 +46,7 @@ class LicitacaoRequest extends FormRequest
             'disbursement_schedule' => 'required',
             'edital_date' => 'required',
             'datetime_open' => 'required',
-            'status_process' => 'required',
+            'status' => 'required',
             'sector_id' => 'required',
             'value' => 'required',
         ];
@@ -75,7 +75,7 @@ class LicitacaoRequest extends FormRequest
             'disbursement_schedule.required' => 'o campo é obrigatório',
             'edital_date.required' => 'o campo é obrigatório',
             'datetime_open.required' => 'o campo é obrigatório',
-            'status_process.required' => 'o campo é obrigatório',
+            'status.required' => 'o campo é obrigatório',
             'sector_id.required' => 'o campo é obrigatório',
             'value.required' => 'o campo é obrigatório',
         ];
