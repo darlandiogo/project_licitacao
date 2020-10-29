@@ -33,8 +33,8 @@ class LicitacaoRepository implements Repository
         ->with('licitacao_status')
         ->findOrFail($id); 
        
-        if($licitacoes)
-            $licitacoes->items = DB::table('items')->where('type_id', $id)->get();
+        //if($licitacoes)
+        //    $licitacoes->items = DB::table('items')->where('type', 'licitacao')->where('type_id', $id)->get();
 
         return $licitacoes;
     }
