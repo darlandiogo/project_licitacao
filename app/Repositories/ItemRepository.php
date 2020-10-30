@@ -27,7 +27,8 @@ class ItemRepository implements Repository
     }
     public function getById($id)
     {
-        return DB::table('items')->where('id', $id)->get();
+        return Item::select(DB::raw("id, number, specification, quantity, unity, type, type_id, REPLACE(REPLACE(REPLACE(FORMAT(value, 2), '.', '#'), ',', '.'), '#', ',') as value"))
+        ->where('id', $id)->firstOrFail();
     }
     public function create($input)
     {
@@ -38,10 +39,14 @@ class ItemRepository implements Repository
             'unity' => $input['unity'],
             'type' => $input['type'],
             'type_id' => $input['type_id'],
-            'value' => $input['value'],
+            'value' => Item::formatMoneyDb($input['value']),
         ]);
+        
+        if($item)
+            return true;
 
-        return $this->getById($item->id);
+        return false;
+        //return $this->getById($item->id);
     }
     public function edit($input, $id)
     {
@@ -53,11 +58,15 @@ class ItemRepository implements Repository
             $item->unity = $input['unity'];
             $item->type = $input['type'];
             $item->type_id = $input['type_id'];
-            $item->value = $input['value'];
+            $item->value = Item::formatMoneyDb($input['value']);
             $item->save();
         }
+
+        if($item)
+            return true;
         
-        return $this->getById($item->id);
+        return false;
+        //return $this->getById($item->id);
     }
     public function delete($id)
     {
