@@ -4,11 +4,11 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: kieling
-    working_dir: /kieling
+    container_name: licitacao
+    working_dir: /licitacao
     image: php:alpine
     volumes:
-      - "./:/kieling"
+      - "./:/licitacao"
     command: php artisan migrate 
     command: php artisan serve
     ports:

@@ -23,7 +23,8 @@ class FuncionarioRepository implements Repository
             ]);
         $query->join('pessoa_fisicas', 'pessoa_fisicas.pessoa_id','=', 'pessoas.id');
         $query->join('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
-
+        $query->where('pessoas.deleted_at', null);
+        
         if($params['searchTerm'])
             $query->where('pessoas.name', 'like', '%' . $params['searchTerm'] . '%');
 

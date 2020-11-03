@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\AddrressController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,9 +39,5 @@ Route::post('/address/update', 'AddrressController@update')->middleware('auth_ap
 Route::post('/phone/update', 'PhoneController@update')->middleware('auth_api');
 Route::post('/representante/update', 'RepresentanteController@update')->middleware('auth_api');
 
-
-Route::get('/teste', function(){
-
-    //return App\Models\Role::find(1)->permissions;
-    return App\User::find(1)->roles;
-});
+Route::post('/import', 'WrapperIExportController@import');//->middleware('auth_api');
+Route::get('/export', 'WrapperIExportController@export')->middleware('auth_api');

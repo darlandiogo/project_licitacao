@@ -20,7 +20,9 @@ class PessoaJuridicaRepository implements Repository
             'pessoa_juridicas.cnpj',
             'type'
             ]);
+        
         $query->join('pessoa_juridicas', 'pessoa_juridicas.pessoa_id','=', 'pessoas.id');
+        $query->where('pessoas.deleted_at', null);
         $query->where('type', '!=' ,'secretaria');
         
         if($params['searchTerm'])

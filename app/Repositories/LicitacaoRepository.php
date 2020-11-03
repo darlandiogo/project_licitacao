@@ -12,6 +12,7 @@ class LicitacaoRepository implements Repository
     {
         $query = DB::table('licitacoes');
         $query->select(DB::raw("id, process_number, DATE_FORMAT(process_date,'%d/%m/%Y') AS process_date ,  bidding_number, bidding_objective, REPLACE(REPLACE(REPLACE(FORMAT(value, 2), '.', '#'), ',', '.'), '#', ',') as value"));
+        $query->where('deleted_at', null);
         if($params['searchTerm']){
             $query->where('process_number', 'like', '%' . $params['searchTerm'] . '%');
             $query->orWhere('bidding_number', 'like', '%' . $params['searchTerm'] . '%');

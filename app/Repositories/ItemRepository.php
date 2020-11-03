@@ -12,6 +12,7 @@ class ItemRepository implements Repository
         $query->select(DB::raw("id, number, specification, quantity, unity, REPLACE(REPLACE(REPLACE(FORMAT(value, 2), '.', '#'), ',', '.'), '#', ',') as value"));
         $query->where('type', $params["type"]);
         $query->where('type_id', $params["type_id"]);
+        $query->where('deleted_at', null);
 
         if($params['searchTerm']){
             $query->where('number', 'like', '%' . $params['searchTerm'] . '%');
@@ -70,7 +71,20 @@ class ItemRepository implements Repository
     }
     public function delete($id)
     {
-        // delete
+        return Item::where('id', $id)->delete();
+    }
+
+    public function import ($params)
+    {
+        //
+    }
+
+    public function export ($params)
+    {
+        return Item::select(
+        DB::raw('number as Número, specification as "Especificação", quantity as "Quantidade", unity as "Unidade", value as "Valor Unitário"'))
+        ->where('type', $params['type'])->where('type_id', $params['type_id'])->get();
+
     }
 
 }

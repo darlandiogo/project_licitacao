@@ -18,8 +18,10 @@ class PessoaFisicaRepository implements Repository
             'pessoa_fisicas.cpf',
             'pessoa_fisicas.type',
             ]);
+        
         $query->join('pessoa_fisicas', 'pessoa_fisicas.pessoa_id','=', 'pessoas.id');
-
+        $query->where('pessoas.deleted_at', null);
+        
         if($params['searchTerm'])
             $query->where('pessoas.name', 'like', '%' . $params['searchTerm'] . '%');
 
