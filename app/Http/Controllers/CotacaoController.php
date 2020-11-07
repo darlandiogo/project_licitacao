@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\ItemRepository;
-use App\Http\Requests\ItemRequest;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CotacaoRequest;
+use App\Repositories\CotacaoRepository;
 
-class ItemController extends Controller
+class CotacaoController extends Controller
 {
-    
-    protected $itemRepository;
+    protected $cotacaoRepository;
 
-    public function __construct(ItemRepository $itemRepository )
+
+    public function __construct(CotacaoRepository $cotacaoRepository)
     {
-        $this->itemRepository = $itemRepository;
+        $this->cotacaoRepository = $cotacaoRepository;
     }
     
     /**
@@ -25,7 +24,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $params = $request->only(['page', 'perPage', 'searchTerm','type', 'type_id']);
-        return $this->itemRepository->all($params);
+        return $this->cotacaoRepository->all($params);
     }
 
     /**
@@ -44,19 +43,15 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ItemRequest $request)
+    public function store(CotacaoRequest $request)
     {
         $params = $request->only([
-            'number',
-            'specification',
-            'quantity',
-            'unity',
-            'type',
-            'type_id',
-            'value', 
+            'process_number',
+            'process_date',
+            'purpose_bidding',
         ]);
 
-        return $this->itemRepository->create($params);
+        return $this->cotacaoRepository->create($params);
     }
 
     /**
@@ -67,7 +62,7 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        return $this->itemRepository->getById($id);
+        return $this->cotacaoRepository->getById($id);
     }
 
     /**
@@ -88,19 +83,15 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ItemRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $params = $request->only([
-            'number',
-            'specification',
-            'quantity',
-            'unity',
-            'type',
-            'type_id',
-            'value', 
+            'process_number',
+            'process_date',
+            'purpose_bidding',
         ]);
 
-        return $this->itemRepository->edit($params, $id);
+        return $this->cotacaoRepository->edit($params, $id);
     }
 
     /**
@@ -111,20 +102,6 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        return $this->itemRepository->delete($id);
-    }
-
-    public function deleteAll(Request $request)
-    {
-        $validate = Validator::make($request->only(['type', 'type_id']),[
-            'type' => 'required',
-            'type_id' => 'required',
-        ]);
-
-        if($validate->fails()){
-            return response()->json(['error' => 'Ocorreu um erro, tente novamente!'], 422);
-        }
-
-        return $this->itemRepository->deleteAll($request->only(['type', 'type_id']));
+        return $this->cotacaoRepository->delete($id);
     }
 }

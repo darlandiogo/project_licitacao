@@ -62,7 +62,7 @@ class WrapperIExportController extends Controller
                     'unity' => $collection['Unidade'],
                     'type' => $request->input('type'),
                     'type_id' => $request->input('type_id'),
-                    'value' => Item::formatMoneyDb($collection['Valor Unitário']),
+                    'value' => isset($collection['Valor Unitário']) ? Item::formatMoneyDb($collection['Valor Unitário']) : 0,
                 ]);
             } 
         }
