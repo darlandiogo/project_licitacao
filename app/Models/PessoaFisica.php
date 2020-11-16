@@ -31,13 +31,17 @@ class PessoaFisica extends Model
         $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
         //$query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
         $query->where('pessoas.id', $id);
+        $query->where('pessoa_fisicas.deleted_at', null);
         return $query->first();   
     }
-    public static function listPessoa () {
+    
+    public static function listPessoa ()
+    {
         $query = DB::table('pessoa_fisicas'); 
         $query->select(['pessoas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
         $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
         $query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
+        $query->where('pessoa_fisicas.deleted_at', null);
         return $query->get();
     }
 }

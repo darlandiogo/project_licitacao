@@ -75,7 +75,7 @@ class FuncionarioController extends Controller
     }
 
     /**
-     * list Pessoa (id, name)
+     * list Pessoa (id, name, cpf)
      */
     public function listPessoa()
     {

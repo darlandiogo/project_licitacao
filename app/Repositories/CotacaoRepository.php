@@ -4,7 +4,6 @@ namespace App\Repositories;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cotacao;
 
-
 class CotacaoRepository implements Repository
 {
     public function all($params)
@@ -56,5 +55,15 @@ class CotacaoRepository implements Repository
     {
         Cotacao::where('id',$id)->delete();
         return true;
+    }
+
+    public function listEmpresa()
+    {
+        $query = DB::table('pessoa_juridicas');
+        $query->select(['pessoa_juridicas.id', 'pessoas.name', 'pessoa_juridicas.cnpj']);
+        $query->join('pessoas', 'pessoas.id','=', 'pessoa_juridicas.pessoa_id');
+        $query->where('pessoa_juridicas.deleted_at', null);
+        $query->where('type', '!=' ,'secretaria');
+        return $query->get();
     }
 }

@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CotacaoRequest;
-use App\Repositories\CotacaoRepository;
+use App\Repositories\CotacaoEmpresaRepository;
 
-class CotacaoController extends Controller
+class CotacaoEmpresaController extends Controller
 {
-    protected $cotacaoRepository;
+    protected $cotacaoEmpresaRepository;
 
-
-    public function __construct(CotacaoRepository $cotacaoRepository)
+    public function __construct(CotacaoEmpresaRepository $cotacaoEmpresaRepository)
     {
-        $this->cotacaoRepository = $cotacaoRepository;
+        $this->cotacaoEmpresaRepository = $cotacaoEmpresaRepository; 
     }
     
     /**
@@ -21,10 +19,9 @@ class CotacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $params = $request->only(['page', 'perPage', 'searchTerm','type', 'type_id']);
-        return $this->cotacaoRepository->all($params);
+        //
     }
 
     /**
@@ -43,15 +40,14 @@ class CotacaoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CotacaoRequest $request)
+    public function store(Request $request)
     {
-        $params = $request->only([
-            'process_number',
-            'process_date',
-            'purpose_bidding',
+        $request->validate([
+            'cotacao_id'=> 'required',
+            'pessoa_juridica_id' => 'required',
         ]);
 
-        return $this->cotacaoRepository->create($params);
+        return $this->cotacaoEmpresaRepository->create($request->only(['cotacao_id', 'pessoa_juridica_id']));
     }
 
     /**
@@ -62,15 +58,7 @@ class CotacaoController extends Controller
      */
     public function show($id)
     {
-        return $this->cotacaoRepository->getById($id);
-    }
-
-    /**
-     * list  Empresa (id, name, cnpj)
-     */
-    public function listEmpresa()
-    {
-        return $this->cotacaoRepository->listEmpresa();
+        return $this->cotacaoEmpresaRepository->getById($id);
     }
 
     /**
@@ -93,13 +81,11 @@ class CotacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $params = $request->only([
-            'process_number',
-            'process_date',
-            'purpose_bidding',
+        $request->validate([
+            'pessoa_juridica' => 'required'
         ]);
-
-        return $this->cotacaoRepository->edit($params, $id);
+        
+        return $this->cotacaoEmpresaRepository->edit($request->only(['pessoa_juridica']), $id);
     }
 
     /**
@@ -110,6 +96,6 @@ class CotacaoController extends Controller
      */
     public function destroy($id)
     {
-        return $this->cotacaoRepository->delete($id);
+        //
     }
 }

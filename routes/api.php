@@ -25,6 +25,7 @@ Route::post('/refresh', 'Auth\\AuthController@refresh');
 Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
 Route::get('/funcionario/listpessoa', 'FuncionarioController@listPessoa')->middleware('auth_api');
+Route::get('/cotacao/listempresa', 'CotacaoController@listEmpresa')->middleware('auth_api');
 Route::get('/pessoajuridica/listsecretaria', 'PessoaJuridicaController@listSecretaria')->middleware('auth_api');
 Route::get('/licitacao/selectoptions', 'LicitacaoController@selectOptions')->middleware('auth_api');
 Route::delete('item/all', 'ItemController@deleteAll')->middleware('auth_api'); 
@@ -34,7 +35,8 @@ Route::apiResource('pessoafisica', PessoaFisicaController::class)->middleware('a
 Route::apiResource('pessoajuridica', PessoaJuridicaController::class)->middleware('auth_api');  
 Route::apiResource('funcionario', FuncionarioController::class)->middleware('auth_api'); 
 Route::apiResource('licitacao', LicitacaoController::class)->middleware('auth_api'); 
-Route::apiResource('cotacao', CotacaoController::class)->middleware('auth_api'); 
+Route::apiResource('cotacao/empresa', CotacaoEmpresaController::class)->middleware('auth_api');  
+Route::apiResource('cotacao', CotacaoController::class)->middleware('auth_api');
 Route::apiResource('item', ItemController::class)->middleware('auth_api'); 
 
 Route::post('/address/update', 'AddrressController@update')->middleware('auth_api');
