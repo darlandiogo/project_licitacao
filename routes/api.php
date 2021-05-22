@@ -22,26 +22,32 @@ Route::post('/login', 'Auth\\AuthController@login');
 Route::post('/logout', 'Auth\\AuthController@logout');
 Route::post('/refresh', 'Auth\\AuthController@refresh');
 
-Route::get('/me', 'Auth\\AuthController@me')->middleware('auth_api');
 
-Route::get('/funcionario/listpessoa', 'FuncionarioController@listPessoa')->middleware('auth_api');
-Route::get('/cotacao/listempresa', 'CotacaoController@listEmpresa')->middleware('auth_api');
-Route::get('/pessoajuridica/listsecretaria', 'PessoaJuridicaController@listSecretaria')->middleware('auth_api');
-Route::get('/licitacao/selectoptions', 'LicitacaoController@selectOptions')->middleware('auth_api');
-Route::delete('item/all', 'ItemController@deleteAll')->middleware('auth_api'); 
+Route::middleware(['auth_api'])->group(function () {
 
-//Route::apiResource('pessoa', PessoaController::class); 
-Route::apiResource('pessoafisica', PessoaFisicaController::class)->middleware('auth_api'); 
-Route::apiResource('pessoajuridica', PessoaJuridicaController::class)->middleware('auth_api');  
-Route::apiResource('funcionario', FuncionarioController::class)->middleware('auth_api'); 
-Route::apiResource('licitacao', LicitacaoController::class)->middleware('auth_api'); 
-Route::apiResource('cotacao/empresa', CotacaoEmpresaController::class)->middleware('auth_api');  
-Route::apiResource('cotacao', CotacaoController::class)->middleware('auth_api');
-Route::apiResource('item', ItemController::class)->middleware('auth_api'); 
 
-Route::post('/address/update', 'AddrressController@update')->middleware('auth_api');
-Route::post('/phone/update', 'PhoneController@update')->middleware('auth_api');
-Route::post('/representante/update', 'RepresentanteController@update')->middleware('auth_api');
+    Route::get('/me', 'Auth\\AuthController@me');
 
-Route::post('/import', 'WrapperIExportController@import')->middleware('auth_api');
-Route::get('/export', 'WrapperIExportController@export')->middleware('auth_api');
+    Route::get('/funcionario/listpessoa', 'FuncionarioController@listPessoa');
+    Route::get('/cotacao/listempresa', 'CotacaoController@listEmpresa');
+    Route::get('/pessoajuridica/listsecretaria', 'PessoaJuridicaController@listSecretaria');
+    Route::get('/licitacao/selectoptions', 'LicitacaoController@selectOptions');
+    Route::delete('item/all', 'ItemController@deleteAll'); 
+
+    //Route::apiResource('pessoa', PessoaController::class); 
+    Route::apiResource('pessoafisica', PessoaFisicaController::class); 
+    Route::apiResource('pessoajuridica', PessoaJuridicaController::class);  
+    Route::apiResource('funcionario', FuncionarioController::class); 
+    Route::apiResource('licitacao', LicitacaoController::class); 
+    Route::apiResource('cotacao/empresa', CotacaoEmpresaController::class);  
+    Route::apiResource('cotacao', CotacaoController::class);
+    Route::apiResource('item', ItemController::class); 
+
+    Route::post('/address/update', 'AddrressController@update');
+    Route::post('/phone/update', 'PhoneController@update');
+    Route::post('/representante/update', 'RepresentanteController@update');
+
+    Route::post('/import', 'WrapperIExportController@import');
+    Route::get('/export', 'WrapperIExportController@export');
+
+});
