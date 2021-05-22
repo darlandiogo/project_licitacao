@@ -24,8 +24,7 @@ Route::post('/refresh', 'Auth\\AuthController@refresh');
 
 
 Route::middleware(['auth_api'])->group(function () {
-
-
+    
     Route::get('/me', 'Auth\\AuthController@me');
 
     Route::get('/funcionario/listpessoa', 'FuncionarioController@listPessoa');
