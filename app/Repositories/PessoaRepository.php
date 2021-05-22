@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Pessoa;
-use App\Models\Address;
-use App\Models\Phone;
+use App\Repositories\AddressRepository;
+use App\Repositories\PhoneRepository;
 
 class PessoaRepository implements Repository
 {
@@ -30,7 +30,7 @@ class PessoaRepository implements Repository
             if(is_array($input['phones']))
             {
                 foreach($input['phones'] as $phone){
-                    Phone::create([
+                    (new PhoneRepository)->create([
                         'pessoa_id' => $pessoa->id,
                         'number' => $phone['number']
                     ]);
@@ -40,7 +40,7 @@ class PessoaRepository implements Repository
 
         if(isset($pessoa->id) && isset($input['address']))
         {
-            Address::create([
+            (new AddressRepository)->create([
                 'pessoa_id'     => $pessoa->id,
                 'address'       => $input['address']['logradouro'],
                 'number'        => $input['address']['numero'] ?? null,
@@ -70,9 +70,9 @@ class PessoaRepository implements Repository
         {   
             if(is_array($input['phones']))
             {
-                Phone::where('pessoa_id', $pessoa->id)->delete();
+                (new PhoneRepository)->deleteByPessoaId($pessoa->id);
                 foreach($input['phones'] as $phone){
-                    Phone::create([
+                    (new PhoneRepository)->create([
                         'pessoa_id' => $pessoa->id,
                         'number' => $phone['number']
                     ]);
@@ -80,18 +80,19 @@ class PessoaRepository implements Repository
             }
         }
 
-        $adrress = Address::find($pessoa->id);
+        $adrress = (new AddressRepository)->getByPessoaId($pessoa->id);
         if(isset($adrress) && isset($input['address']))
         {
-            $adrress->pessoa_id     = $pessoa->id;
-            $adrress->address       = $input['address']['logradouro'];
-            $adrress->number        = $input['address']['numero'] ?? null;
-            $adrress->complement    = $input['address']['complemento'] ?? null;
-            $adrress->postal_code   = $input['address']['cep'];
-            $adrress->neighborhood  = $input['address']['bairro'];
-            $adrress->city = $input['address']['localidade'];
-            $adrress->state = $input['address']['uf'];
-            
+            (new AddressRepository)->edit([
+                'pessoa_id'     => $pessoa->id,
+                'address'       => $input['address']['logradouro'],
+                'number'        => $input['address']['numero'] ?? null,
+                'complement'    => $input['address']['complemento'] ?? null,
+                'postal_code'   => $input['address']['cep'],
+                'neighborhood'  => $input['address']['bairro'],
+                'city' => $input['address']['localidade'],
+                'state' => $input['address']['uf']
+            ],  $adrress->id);  
         }
 
         return $this->getById($pessoa->id);
@@ -100,8 +101,17 @@ class PessoaRepository implements Repository
     public function delete($id)
     {
         Pessoa::where('id',$id)->delete();
-        Address::where('pessoa_id',$id)->delete();
-        Phone::where('pessoa_id',$id)->delete();
+
+        $adrress = (new AddressRepository)->getByPessoaId($pessoa->id);
+        if($adrress){
+            (new AddressRepository)->deleteByPessoaId($adrress->id);
+        }
+        
+        $phone = (new PhoneRepository)->getByPessoaId($id);
+        if($phone) {
+            (new PhoneRepository)->deleteByPessoaId($phone->id);
+        }
+       
         return true;
     }
 }

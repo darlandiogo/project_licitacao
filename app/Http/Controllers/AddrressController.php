@@ -15,7 +15,7 @@ class AddrressController extends Controller
     
     public function update(AddrressRequest $request){
         
-        return $this->addressRepository->edit(
+        return $this->addressRepository->editByPessoaId(
             $request->only([
                 'address',  
                 'number',

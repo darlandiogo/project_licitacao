@@ -14,7 +14,7 @@ class PhoneController extends Controller
     }
     
     public function update(PhoneRequest $request){
-        return $this->phoneRepository->edit(
+        return $this->phoneRepository->editByPessoaId(
             $request->only([  
                 'numbers'
             ]), 

@@ -17,12 +17,38 @@ class AddressRepository implements Repository
 
     public function create($input)
     {
-        //
+        return Address::create([
+            'pessoa_id'     => $input['pessoa_id'],
+            'address'       => $input['address'],
+            'number'        => $input['number'] ?? null,
+            'complement'    => $input['complement'] ?? null,
+            'postal_code'   => $input['postal_code'],
+            'neighborhood'  => $input['neighborhood'],
+            'city'          => $input['city'],
+            'state'         => $input['state']
+        ]);
     }
 
     public function edit($input, $id)
     {   
-        $address = Address::where('pessoa_id',$id)->first();
+        $address = $this->getById($id);
+        if($address){
+            $address->address = $input['address'];
+            $address->number  = $input['number'];
+            $address->complement    = $input['complement'];
+            $address->neighborhood  = $input['neighborhood'];
+            $address->postal_code   = $input['postal_code'];
+            $address->city  = $input['city'];
+            $address->state = $input['state']; 
+            $address->save(); 
+            return true;
+        }
+        return  false;
+    }
+
+    public function editByPessoaId($input, $id)
+    {   
+        $address = $this->getByPessoaId($id);
         if($address){
             $address->address = $input['address'];
             $address->number  = $input['number'];
@@ -34,22 +60,24 @@ class AddressRepository implements Repository
             $address->save(); 
         }
         else {
-            $address = Address::create([
-                'pessoa_id' => $id,
-                'address' => $input['address'],  
-                'number'  => $input['number'],
-                'complement' => $input['complement'],   
-                'neighborhood' => $input['neighborhood'], 
-                'postal_code' => $input['postal_code'],   
-                'city' => $input['city'],   
-                'state' => $input['state'], 
-            ]);
+            $input['pessoa_id'] =  $id;
+            $address = $this->create($input);
         }
         return $this->getById($address->id);
+    }
+
+    public function getByPessoaId($id)
+    {
+        return Address::where('pessoa_id', $id)->first();
     }
 
     public function delete($id)
     {
         //
+    }
+
+    public function deleteByPessoaId($id)
+    {
+        return Address::where('pessoa_id',$id)->delete();
     }
 }

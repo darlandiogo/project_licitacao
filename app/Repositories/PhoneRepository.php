@@ -15,14 +15,27 @@ class PhoneRepository implements Repository
        //
     }
 
+    public function getByPessoaId($id)
+    {
+        return Phone::where('pessoa_id', $id)->first();
+    }
+
     public function create($input)
     {
-        //
+        return Phone::create([
+            'pessoa_id' => $input['pessoa_id'],
+            'number'    => $input['number']
+        ]);
     }
 
     public function edit($input, $id)
     {   
-        Phone::where('pessoa_id',$id)->delete();
+       //
+    }
+
+    public function editByPessoaId($input, $id)
+    {
+        $this->deleteByPessoaId($id);
         foreach($input['numbers'] as $number){
             Phone::create([
                 'pessoa_id' => $id,
@@ -35,5 +48,10 @@ class PhoneRepository implements Repository
     public function delete($id)
     {
         //
+    }
+
+    public function deleteByPessoaId($id)
+    {
+        return Phone::where('pessoa_id',$id)->delete();
     }
 }
