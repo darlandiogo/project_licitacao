@@ -92,12 +92,6 @@ class PessoaJuridicaRepository implements Repository
 
     public function create($input)
     {
-       /* $pessoa = Pessoa::create([
-            'name' => $input['name'],
-            // 'birth_date' => $input['birth_date'],
-            'email' => $input ['email'],
-        ]); */
-
         $pessoa = ( new PessoaRepository )->create( $input );
 
         PessoaJuridica::create([
@@ -112,14 +106,6 @@ class PessoaJuridicaRepository implements Repository
 
     public function edit($input, $id)
     {
-       /* $pessoa = Pessoa::find($id);
-        if($pessoa){
-            $pessoa->name = $input['name'];
-            //$pessoa->birth_date = $input['birth_date'];
-            $pessoa->email = $input ['email'];
-            $pessoa->save();
-        }*/
-
         $pessoa = (new PessoaRepository)->getById($id);
         if($pessoa){
             (new PessoaRepository)->edit($input, $pessoa->id);
