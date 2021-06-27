@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         //$this->call(LicitacaoTypeSeeder::class);
         //$this->call(LicitacaoFormSeeder::class);
         //$this->call(LicitacaoRegimeSeeder::class);
-        $this->call(LicitacaoStatusSeeder::class);
+        //$this->call(LicitacaoStatusSeeder::class);
     }
 }

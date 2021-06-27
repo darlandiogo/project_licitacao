@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Funcionario;
-use App\Models\PessoaFisica;
+use App\Repositories\PessoaFisicaRepository;
 use Illuminate\Support\Facades\DB;
 
 class FuncionarioRepository implements Repository
@@ -77,8 +77,7 @@ class FuncionarioRepository implements Repository
     } 
     
     public function listPessoa(){
-        // * melhorar query pra trazer apenas pesso_fisica sem vinculo com funcionario
-        return PessoaFisica::listPessoa();
+        return ( new PessoaFisicaRepository() )->listPessoa();
 
     }
 }

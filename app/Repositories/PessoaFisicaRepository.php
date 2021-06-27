@@ -30,6 +30,16 @@ class PessoaFisicaRepository implements Repository
 
         return $query->paginate(10);
     }
+
+    public function listPessoa ()
+    {
+        $query = DB::table('pessoa_fisicas'); 
+        $query->select(['pessoa_fisicas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
+        $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
+        $query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
+        $query->where('pessoa_fisicas.deleted_at', null);
+        return $query->get(); 
+    }
     
     public function getById($id)
     {
@@ -39,11 +49,7 @@ class PessoaFisicaRepository implements Repository
 
     public function create($input)
     {
-        $pessoa = Pessoa::create([
-            'name' => $input['name'],
-            'birth_date' => $input['birth_date'],
-            'email' => $input ['email'],
-        ]);
+        $pessoa = ( new PessoaRepository )->create($input);
 
         $pessoa_fisica = PessoaFisica::create([
             'pessoa_id' => $pessoa->id,
@@ -57,15 +63,20 @@ class PessoaFisicaRepository implements Repository
 
     public function edit($input, $id)
     {
-        $pessoa = Pessoa::find($id);
+        /*$pessoa = Pessoa::find($id);
         if($pessoa){
             $pessoa->name = $input['name'];
             $pessoa->birth_date = $input['birth_date'];
             $pessoa->email = $input ['email'];
             $pessoa->save();
+        } */
+
+        $pessoa = (new PessoaRepository)->getById($id);
+        if($pessoa){
+            (new PessoaRepository)->edit($input, $pessoa->id);
         }
 
-        $pessoa_fisica = PessoaFisica::find($pessoa->id);
+        $pessoa_fisica = PessoaFisica::where('pessoa_id', $pessoa->id)->first();
         if($pessoa_fisica){
             $pessoa_fisica->ci   = $input['ci'];
             $pessoa_fisica->cpf  = $input['cpf'] ;

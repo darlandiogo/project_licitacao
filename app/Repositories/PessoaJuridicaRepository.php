@@ -6,6 +6,7 @@ use App\Models\PessoaJuridica;
 use App\Models\Pessoa;
 use App\Models\Representante;
 use App\Models\PessoaFisica;
+use App\Repositories\PessoaRepository;
 use Illuminate\Support\Facades\DB;
 
 class PessoaJuridicaRepository implements Repository
@@ -55,6 +56,17 @@ class PessoaJuridicaRepository implements Repository
 
         return $query->paginate(10);
     }
+
+    public function listPessoaById($id)
+    {
+        $query = DB::table('pessoa_fisicas'); 
+        $query->select(['pessoas.id', 'pessoas.name', 'pessoa_fisicas.cpf']);
+        $query->join('pessoas', 'pessoas.id','=', 'pessoa_fisicas.pessoa_id');
+        //$query->leftJoin('funcionarios',  'funcionarios.pessoa_fisica_id', '=', 'pessoa_fisicas.id');
+        $query->where('pessoas.id', $id);
+        $query->where('pessoa_fisicas.deleted_at', null);
+        return $query->first();   
+    }
     
     public function getById($id)
     {
@@ -66,7 +78,7 @@ class PessoaJuridicaRepository implements Repository
         {
             $result = Representante::where('pessoa_juridica_id', $pessoa->pessoa_juridica->id)->get();
             foreach($result as $item){
-                $value = PessoaFisica::listPessoaById($item->pessoa_id );
+                $value = $this->listPessoaById($item->pessoa_id );
                 if($value)
                     $representantes[] = $value;
             }
@@ -80,11 +92,13 @@ class PessoaJuridicaRepository implements Repository
 
     public function create($input)
     {
-        $pessoa = Pessoa::create([
+       /* $pessoa = Pessoa::create([
             'name' => $input['name'],
             // 'birth_date' => $input['birth_date'],
             'email' => $input ['email'],
-        ]);
+        ]); */
+
+        $pessoa = ( new PessoaRepository )->create( $input );
 
         PessoaJuridica::create([
             'pessoa_id' => $pessoa->id,
@@ -98,15 +112,21 @@ class PessoaJuridicaRepository implements Repository
 
     public function edit($input, $id)
     {
-        $pessoa = Pessoa::find($id);
+       /* $pessoa = Pessoa::find($id);
         if($pessoa){
             $pessoa->name = $input['name'];
             //$pessoa->birth_date = $input['birth_date'];
             $pessoa->email = $input ['email'];
             $pessoa->save();
+        }*/
+
+        $pessoa = (new PessoaRepository)->getById($id);
+        if($pessoa){
+            (new PessoaRepository)->edit($input, $pessoa->id);
         }
 
-        $pessoa_fisica = PessoaJuridica::find($pessoa->id);
+
+        $pessoa_fisica = PessoaJuridica::where('pessoa_id', $pessoa->id)->first();
         if($pessoa_fisica){
             $pessoa_fisica->pessoa_id = $pessoa->id;
             $pessoa_fisica->razao_social   = $input['razao_social'] ? $input['razao_social'] : $input['name'];
